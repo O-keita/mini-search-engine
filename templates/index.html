@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Document Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 antialiased min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-gray-900 mb-8">Academic Document Search</h1>
+        
+        <form action="" method="post" class="mb-8">
+            <div class="flex rounded-md shadow-sm">
+                {{ form.csrf_token }}
+                {{ form.query.label(class_="sr-only") }}
+                {{ form.query(class_="flex-grow focus:ring-primary focus:border-primary block w-full rounded-l-md sm:text-sm border-gray-300 px-4 py-2", placeholder="Search for academic documents...") }}
+                {{ form.submit(class_="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary") }}
+            </div>
+        </form>
+
+        {% if result %}
+        <div id="results" class="space-y-6">
+            {% for item in result %}
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg hover:shadow-md transition-shadow duration-300">
+                <div class="px-4 py-5 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">{{ item.title }}</h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">{{ item.author }}</p>
+                </div>
+                <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+                    <p class="text-sm text-gray-900">{{ item.text }}...</p>
+                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 mt-4">
+  
+                    </dl>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <a href="{{ item.link }}" target="_blank" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Read Full Paper
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-gray-600">No results found.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
